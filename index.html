@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Command Toolkit | Pixlr Group Acad Prompt Library</title>
+    <meta name="description" content="16 essential prompt structures with ready-to-use examples. Categorized by Productivity, Creative & Entertainment, Writing & Content, and Learning & Analysis. Built for modern AI learners.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Ambient Glow Elements -->
+    <div class="ambient-glow glow-blue"></div>
+    <div class="ambient-glow glow-purple"></div>
+    <div class="ambient-glow glow-cyan"></div>
+    <div class="ambient-glow glow-blush"></div>
+
+    <!-- Navigation Header -->
+    <header class="glass-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">
+                <span class="brand-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="brand-text">Pixlr Group <span class="brand-sub">Acad</span></span>
+            </a>
+            <div class="nav-actions">
+                <button class="btn btn-outline nav-btn" id="openGuideBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Learner's Guide</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <div class="app-container">
+        
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-badge animate-fade-in">AI Command Toolkit</div>
+            <h1 class="hero-title animate-fade-in delay-100">Unlock Better AI Outputs</h1>
+            <p class="hero-subtitle animate-fade-in delay-200">
+                16 essential prompt structures to copy, customize, and execute. Stop typing basic instructions—start structuring your workflows.
+            </p>
+
+            <!-- Search Area -->
+            <div class="search-container animate-fade-in delay-300">
+                <div class="search-wrapper">
+                    <span class="search-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input type="text" id="searchInput" placeholder="Search prompts by keyword, use case, or command..." autocomplete="off">
+                    <button id="clearSearchBtn" class="clear-search-btn" aria-label="Clear search">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Filtering Tabs -->
+        <section class="filter-section animate-fade-in delay-400">
+            <div class="filter-tabs" id="filterTabs">
+                <button class="filter-tab active" data-category="all">
+                    <span>All Toolkit</span>
+                    <span class="tab-count" id="count-all">16</span>
+                </button>
+                <button class="filter-tab" data-category="productivity">
+                    <span>Productivity & Systems</span>
+                    <span class="tab-count" id="count-productivity">0</span>
+                </button>
+                <button class="filter-tab" data-category="creative">
+                    <span>Creative & Entertainment</span>
+                    <span class="tab-count" id="count-creative">0</span>
+                </button>
+                <button class="filter-tab" data-category="writing">
+                    <span>Writing & Content</span>
+                    <span class="tab-count" id="count-writing">0</span>
+                </button>
+                <button class="filter-tab" data-category="learning">
+                    <span>Learning & Analysis</span>
+                    <span class="tab-count" id="count-learning">0</span>
+                </button>
+            </div>
+            <div class="active-filters-info" id="activeFilterInfo" style="display: none;">
+                Showing prompts in <strong id="currentFilterText">All</strong>. <button class="reset-filter-btn" id="resetFilterBtn">Reset Filter</button>
+            </div>
+        </section>
+
+        <!-- Prompts Grid / Accordion Stack -->
+        <section class="prompts-section">
+            <div id="promptsContainer" class="prompts-container">
+                <!-- JavaScript will dynamically render prompt cards here -->
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Building your toolkit...</p>
+                </div>
+            </div>
+            
+            <div id="noResultsState" class="no-results-card" style="display: none;">
+                <div class="no-results-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                </div>
+                <h3>No prompts match your criteria</h3>
+                <p>Try resetting the category filter or searching for another keyword.</p>
+                <button class="btn btn-primary" id="clearSearchAllBtn">Clear Search & Filters</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Collapsible Learners Drawer Sidebar -->
+    <div class="guide-backdrop" id="guideBackdrop"></div>
+    <aside class="guide-drawer" id="guideDrawer">
+        <div class="drawer-header">
+            <h2 class="drawer-title">Learner's Companion</h2>
+            <button class="close-drawer-btn" id="closeGuideBtn" aria-label="Close Guide">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        
+        <div class="drawer-tabs">
+            <button class="drawer-tab active" data-drawer-tab="how-to">How To Use</button>
+            <button class="drawer-tab" data-drawer-tab="tips">Pro Tips</button>
+            <button class="drawer-tab" data-drawer-tab="faqs">FAQs</button>
+        </div>
+
+        <div class="drawer-content-scroll">
+            <!-- HOW TO USE TAB -->
+            <div class="drawer-tab-content active" id="drawer-how-to">
+                <div class="guide-intro">
+                    <p>Good prompts are the difference between mediocre AI outputs and high-value, actionable results. Follow this simple 3-step cycle to master prompting:</p>
+                </div>
+                <div class="steps-timeline">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-body">
+                            <h4>Identify Your Task</h4>
+                            <p>What are you trying to accomplish? Pick a category that aligns with your goal:
+                                <ul>
+                                    <li>Need to simplify complex topics? → <strong>Explain simply</strong></li>
+                                    <li>Need to choose between options? → <strong>Compare</strong></li>
+                                    <li>Stuck creatively? → <strong>List ideas</strong></li>
+                                    <li>Need brevity? → <strong>Make it shorter</strong></li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-body">
+                            <h4>Customize the Template</h4>
+                            <p>Open a prompt accordion, use the interactive form fields to type your own specific details, or copy the template and edit it directly in your AI tool (ChatGPT, Claude, Designs.AI, Gemini).</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-body">
+                            <h4>Review and Refine</h4>
+                            <p>Analyze the output. If it needs adjustments, don't restart. Simply prompt: <em>"Close, but make it shorter"</em> or <em>"Add 2 more options"</em> or <em>"Tone it down and make it more professional"</em>.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="anatomy-card">
+                    <h4>The Prompt Anatomy</h4>
+                    <p>Every template in this toolkit follows a proven architectural pattern:</p>
+                    <div class="formula-block">
+                        Task + Context + Audience + Purpose + Tone + Format + Constraints
+                    </div>
+                    <p class="formula-desc">By specifying these details, you direct the AI's persona, knowledge-base, and output format for precise execution.</p>
+                </div>
+            </div>
+
+            <!-- PRO TIPS TAB -->
+            <div class="drawer-tab-content" id="drawer-tips">
+                <ul class="tips-list">
+                    <li>
+                        <div class="tip-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <div class="tip-text">
+                            <strong>Copy exactly, then customize:</strong> Avoid typing templates from memory. Copy them fully to maintain structural integrity, then fill the fields.
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tip-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <div class="tip-text">
+                            <strong>Be granular in brackets:</strong> "Gen Z Instagram users who love organic skincare" yields far superior outcomes compared to just "Instagram users".
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tip-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <div class="tip-text">
+                            <strong>Combine keywords:</strong> You can merge templates. E.g., "Summarise this article" + "Make it shorter" = <em>"Summarise this concept simply in under 100 words"</em>.
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tip-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <div class="tip-text">
+                            <strong>Save working prompts:</strong> When you hit a perfect output, save the exact prompt structure you used. Build a customized playbook for your specific brand.
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tip-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <div class="tip-text">
+                            <strong>Time-to-Output Expectation:</strong> Modern LLMs take 10 to 60 seconds to execute these complex instructions. The patience is rewarded with production-ready drafts.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- FAQS TAB -->
+            <div class="drawer-tab-content" id="drawer-faqs">
+                <div class="faq-item">
+                    <h4 class="faq-q">I copied a prompt but the output doesn't feel right. What do I do?</h4>
+                    <p class="faq-a">Do not start over. Give feedback to the AI. E.g., <em>"This is close, but rewrite it to be much friendlier and add a relatable example."</em> AI works best through iterative conversation.</p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-q">Can I combine multiple templates?</h4>
+                    <p class="faq-a">Yes. You can copy the structure of "Summarise" and "Turn into a table" and combine them: <em>"Summarise the following meeting transcript and organize the action items into a table."</em></p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-q">What do brackets [like this] mean?</h4>
+                    <p class="faq-a">The brackets indicate variables. You need to replace them with your own details. On this page, you can type directly into the input fields generated for each accordion to fill them automatically!</p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-q">Which AI tool works best with these prompts?</h4>
+                    <p class="faq-a">These are universal structures. They work perfectly in Designs.AI, ChatGPT, Claude, Gemini, Copilot, and other LLMs.</p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-q">How do I get more variety?</h4>
+                    <p class="faq-a">Use the "Create 5 options" template, or instruct the AI: <em>"Provide three distinct options, one written in a playful marketing tone, one highly professional, and one focused solely on direct benefits."</em></p>
+                </div>
+                <div class="faq-item">
+                    <h4 class="faq-q">How do I ensure facts are correct?</h4>
+                    <p class="faq-a">AI can sometimes hallucinate details. Implement a simple verification step in your routine: <strong>Read → Review → Verify → Use</strong>. Always verify critical facts, statistics, or legal items.</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <footer class="app-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Pixlr Group Acad. Built for Clean, Professional, and Friendly AI Prompt Engineering.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript code -->
+    <script src="app.js"></script>
+</body>
+</html>
