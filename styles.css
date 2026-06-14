@@ -1232,3 +1232,189 @@ body {
         padding: 0.5rem;
     }
 }
+
+/* ============================================
+   VIEW MODE TOGGLE (Simple vs Advanced)
+   ============================================ */
+.view-toggle-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0.5rem 0 1.75rem;
+}
+
+.view-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 0.3rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.view-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    padding: 0.55rem 1.4rem;
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.view-toggle-btn svg { opacity: 0.75; }
+
+.view-toggle-btn:hover { color: var(--brand-navy); }
+
+.view-toggle-btn.active {
+    background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-purple) 100%);
+    color: var(--text-light);
+    box-shadow: var(--shadow-md);
+}
+
+.view-toggle-btn.active svg { opacity: 1; }
+
+.view-toggle-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ============================================
+   SIMPLE VIEW CARDS
+   ============================================ */
+.prompts-container.simple-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.prompt-card-simple {
+    background: var(--surface-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem 1.75rem;
+    transition: all var(--transition-normal);
+}
+
+.prompt-card-simple:hover {
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-md);
+}
+
+.simple-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    margin-bottom: 1.1rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.simple-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.simple-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+.simple-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding-top: 0.15rem;
+}
+
+.simple-label svg { color: var(--text-muted); flex-shrink: 0; }
+
+.simple-value { font-size: 0.95rem; color: var(--text-secondary); min-width: 0; }
+
+.simple-value.simple-text { line-height: 1.55; padding-top: 0.1rem; }
+
+.simple-box {
+    position: relative;
+    background: var(--bg-main);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 0.95rem 1.05rem;
+    padding-right: 5.5rem;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-primary);
+}
+
+.simple-box-formula {
+    background: rgba(124, 58, 237, 0.04);
+    border-color: var(--border-accent);
+}
+
+.simple-box-text { white-space: normal; word-break: break-word; }
+
+.simple-var {
+    background: rgba(6, 182, 212, 0.12);
+    border-bottom: 1.5px solid var(--brand-cyan);
+    color: #0e7490;
+    padding: 0 0.2rem;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+.btn-copy-simple {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--surface-card);
+    border: 1px solid var(--border-light);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-copy-simple:hover {
+    color: var(--brand-purple);
+    border-color: var(--border-accent);
+}
+
+.btn-copy-simple.success {
+    background: #ecfdf5;
+    color: #065f46;
+    border-color: rgba(6, 95, 70, 0.2);
+}
+
+@media (max-width: 640px) {
+    .prompt-card-simple { padding: 1.25rem; }
+    .simple-row { grid-template-columns: 1fr; gap: 0.45rem; }
+    .simple-box { padding-right: 1.05rem; padding-top: 2.6rem; }
+    .btn-copy-simple { top: 0.6rem; right: 0.6rem; }
+    .view-toggle-btn { padding: 0.5rem 1.1rem; }
+}

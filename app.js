@@ -332,6 +332,8 @@ function updateTabCounts(filteredList) {
 const state = {
     searchQuery: "",
     activeCategory: "all",
+    // View mode: "advanced" (interactive builder) or "simple" (flat reference cards)
+    viewMode: "advanced",
     // Store user inputs for prompt building: key is 'promptId-variableName', value is text
     builderInputs: {},
     expandedCards: new Set()
@@ -385,6 +387,32 @@ function initEvents() {
         updateActiveFilterMessage();
         renderPrompts();
     });
+
+    // View Mode Toggle (Simple vs Advanced)
+    const viewToggle = document.getElementById("viewToggle");
+    if (viewToggle) {
+        viewToggle.addEventListener("click", (e) => {
+            const btn = e.target.closest(".view-toggle-btn");
+            if (!btn) return;
+            const mode = btn.dataset.view;
+            if (mode === state.viewMode) return;
+
+            state.viewMode = mode;
+            document.querySelectorAll(".view-toggle-btn").forEach(b => {
+                const isActive = b.dataset.view === mode;
+                b.classList.toggle("active", isActive);
+                b.setAttribute("aria-selected", isActive ? "true" : "false");
+            });
+
+            const hint = document.getElementById("viewToggleHint");
+            if (hint) {
+                hint.textContent = mode === "simple"
+                    ? "Quick reference — copy the example or formula and go."
+                    : "Interactive builder with editable fields & live preview.";
+            }
+            renderPrompts();
+        });
+    }
 
     // Reset filter and search
     resetFilterBtn.addEventListener("click", resetFilters);
@@ -573,6 +601,14 @@ function renderPrompts() {
     noResultsState.style.display = "none";
     promptsContainer.innerHTML = "";
 
+    // Simple (flat reference) view
+    if (state.viewMode === "simple") {
+        promptsContainer.classList.add("simple-mode");
+        renderSimpleCards(filteredList);
+        return;
+    }
+    promptsContainer.classList.remove("simple-mode");
+
     filteredList.forEach(prompt => {
         const isExpanded = state.expandedCards.has(prompt.id);
         const card = document.createElement("div");
@@ -688,6 +724,106 @@ function renderPrompts() {
         promptsContainer.appendChild(card);
     });
 }
+
+// Escapes HTML special characters for safe text injection
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+// Renders the Simple (flat reference) view — one clean card per prompt
+function renderSimpleCards(list) {
+    list.forEach(prompt => {
+        const categoryLabel = prompt.category.charAt(0).toUpperCase() + prompt.category.slice(1);
+        const exampleHTML = escHtml(prompt.examplePrompt).replace(/\n/g, "<br>");
+        const formulaHTML = escHtml(prompt.template)
+            .replace(/\[([^\]]+)\]/g, '<span class="simple-var">[$1]</span>')
+            .replace(/\n/g, "<br>");
+
+        const card = document.createElement("div");
+        card.className = "prompt-card-simple";
+        card.dataset.id = prompt.id;
+
+        card.innerHTML = `
+            <div class="simple-head">
+                <span class="prompt-keyword">${prompt.id}. ${prompt.keyword}</span>
+                <span class="prompt-category-badge badge-${prompt.category}">${categoryLabel}</span>
+            </div>
+            <div class="simple-grid">
+                <div class="simple-row">
+                    <div class="simple-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                        <span>Category</span>
+                    </div>
+                    <div class="simple-value"><span class="prompt-category-badge badge-${prompt.category}">${categoryLabel}</span></div>
+                </div>
+                <div class="simple-row">
+                    <div class="simple-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <span>Best for</span>
+                    </div>
+                    <div class="simple-value simple-text">${escHtml(prompt.bestFor)}</div>
+                </div>
+                <div class="simple-row">
+                    <div class="simple-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        <span>Example Prompt</span>
+                    </div>
+                    <div class="simple-value">
+                        <div class="simple-box">
+                            <button class="btn-copy-simple" onclick="copySimpleText(${prompt.id}, 'example', this)" aria-label="Copy example prompt">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="copy-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <span class="copy-text">Copy</span>
+                            </button>
+                            <div class="simple-box-text">${exampleHTML}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="simple-row">
+                    <div class="simple-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0H5a2 2 0 0 1-2-2v-4m6 6h10a2 2 0 0 0 2-2v-4"></path></svg>
+                        <span>Formula</span>
+                    </div>
+                    <div class="simple-value">
+                        <div class="simple-box simple-box-formula">
+                            <button class="btn-copy-simple" onclick="copySimpleText(${prompt.id}, 'formula', this)" aria-label="Copy formula">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="copy-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <span class="copy-text">Copy</span>
+                            </button>
+                            <div class="simple-box-text">${formulaHTML}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        promptsContainer.appendChild(card);
+    });
+}
+
+// Copies the raw example prompt or formula text for a simple-view card
+window.copySimpleText = function(promptId, type, buttonEl) {
+    const prompt = promptLibrary.find(p => p.id === promptId);
+    if (!prompt) return;
+
+    const text = type === "formula" ? prompt.template : prompt.examplePrompt;
+
+    navigator.clipboard.writeText(text).then(() => {
+        buttonEl.classList.add("success");
+        const copyTextEl = buttonEl.querySelector(".copy-text");
+        const originalText = copyTextEl.textContent;
+        copyTextEl.textContent = "Copied!";
+        setTimeout(() => {
+            buttonEl.classList.remove("success");
+            copyTextEl.textContent = originalText;
+        }, 1800);
+    }).catch(err => {
+        console.error("Could not copy text: ", err);
+        alert("Copy failed. Please manually select the text to copy.");
+    });
+};
 
 // Collapses or expands accordion card
 window.toggleCard = function(id) {
